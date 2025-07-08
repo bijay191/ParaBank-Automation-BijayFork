@@ -1,0 +1,2 @@
+class FindTransactionPageLocators:
+    url = ""
