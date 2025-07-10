@@ -10,4 +10,3 @@ def test_valid_login(username, password, expected, driver):
     login_page = LoginPage(driver)
     login_page.login(username, password)
     assert login_page.get_login_result() == expected
-
