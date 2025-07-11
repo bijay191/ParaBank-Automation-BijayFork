@@ -1,2 +1,6 @@
 username,password,expected
 annie,annie123,success
+fakeName,fakePw,failure
+,annie123,failure
+annie,,failure
+,,failure
