@@ -29,7 +29,7 @@ class OpenAccountPage(ElementHelper):
 
         open_button = self.driver.find_element(*OpenNewAccPageLocators.open_account_button)
         self.driver.execute_script("arguments[0].click();", open_button)
-        return None  # Means no error — continue to validate outcome
+        return None
 
     def get_open_account_result(self):
         try:

@@ -18,6 +18,7 @@ def test_open_new_account(account_type, expected_result, driver):
 
     # First navigate properly
     open_account_page.element_click_call(OpenNewAccPageLocators.new_account)
+    # open_account_page.load()
 
     # Wait for dropdown readiness
     WebDriverWait(driver, 10).until(EC.presence_of_element_located(OpenNewAccPageLocators.account_type))
