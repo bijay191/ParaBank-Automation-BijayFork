@@ -1,0 +1,5 @@
+account_type,expected_result
+CHECKING,success
+SAVINGS,success
+,validation_error
+INVALID,validation_error
