@@ -10,7 +10,7 @@ test_data = read_csv("Data/transferFunds.csv")
 def test_transfer_fund(amount, expected, driver):
     # Step 1: Log in
     login_page = LoginPage(driver)
-    login_page.login("shyam", "shyam123")
+    login_page.login("bipana", "123")
 
     # Step 2: Perform transaction
     transfer_page = TransferFundsPage(driver)
@@ -21,4 +21,6 @@ def test_transfer_fund(amount, expected, driver):
     result = transfer_page.get_transaction_result()
 
     # Step 4: Assert outcome
-    assert result == expected, f"Expected {expected} but got {result} for amount: {amount}"
+    assert result == expected, (
+        f"Expected {expected} but got {result} for amount: '{amount}'"
+    )

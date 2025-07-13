@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from Locators.OpenNewAccPageLocators import OpenNewAccPageLocators
+from Locators.TransferFundPageLocators import TransferFundPageLocators
 from Utils.ElementHelper import ElementHelper
 
 class OpenAccountPage(ElementHelper):
@@ -31,15 +32,15 @@ class OpenAccountPage(ElementHelper):
         self.driver.execute_script("arguments[0].click();", open_button)
         return None
 
-    def get_open_account_result(self):
+    def get_transaction_result(self):
         try:
             WebDriverWait(self.driver, 5).until(
-                EC.presence_of_element_located(OpenNewAccPageLocators.confirmation_message)
+                EC.visibility_of_element_located(TransferFundPageLocators.success_message)
             )
             return "success"
         except:
-            if self.is_element_present(OpenNewAccPageLocators.error_message):
-                return "validation_error"
+            if self.is_element_present(TransferFundPageLocators.amount_error_message):
+                return "failure"
             return "unknown"
 
 

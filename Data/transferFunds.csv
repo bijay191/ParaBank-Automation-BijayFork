@@ -1,2 +1,4 @@
 amount,expected
 200,success
+,failure
+2000,success

@@ -9,3 +9,12 @@ class TransferFundPageLocators:
     to_account = (By.ID,'toAccountId')
     transfer_button=(By.XPATH,'/html/body/div[1]/div[3]/div[2]/div/div[1]/form/div[2]/input')
     success_message=(By.CLASS_NAME,'title')
+    error_message = (By.CLASS_NAME,'error')
+    # amount_error_message = (By.ID, "showError")  # example
+    amount_error_message = "https://parabank.parasoft.com/parabank/transfer.htm"
+    internal_error_message = (By.XPATH, "//p[contains(text(),'An internal error has occurred')]")
+
+#     check transaction amount in amount overview
+    account_overview= (By.XPATH,"/html/body/div[1]/div[3]/div[1]/ul/li[2]/a")
+    account_table = (By.ID,'accountTable')
+
