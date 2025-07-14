@@ -1,31 +1,5 @@
-# from selenium.webdriver.support import expected_conditions as EC
-#
-# import pytest
-# from selenium.webdriver.support.wait import WebDriverWait
-#
-# from Locators.OpenNewAccPageLocators import OpenNewAccPageLocators
-# from Pages.LoginPage import LoginPage
-# from Pages.OpenNewAccountPage import OpenAccountPage
-# from Utils.FileHelper import read_csv
-#
-# test_data = read_csv("Data/newAccountData.csv")
-#
-# @pytest.mark.parametrize(("account_type", "from_account", "expected_result"), test_data)
-# def test_open_account(account_type, from_account, expected_result, driver):
-#     username = "bipana"
-#     password = "1234"
-#
-#     login_page = LoginPage(driver)
-#     login_page.login(username, password)
-#
-#     open_account_page = OpenAccountPage(driver)
-#     WebDriverWait(driver, 10).until(EC.presence_of_element_located(OpenNewAccPageLocators.account_type))
-#     WebDriverWait(driver, 10).until(EC.presence_of_element_located(OpenNewAccPageLocators.account_number))
-#     # open_account_page.select_dropdown_by_index(account_type, from_account)
-#     assert open_account_page.get_open_account_result() == expected_result
-
 import pytest
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from Locators.OpenNewAccPageLocators import OpenNewAccPageLocators
@@ -35,20 +9,30 @@ from Utils.FileHelper import read_csv
 
 test_data = read_csv("Data/newAccountData.csv")
 
-@pytest.mark.parametrize(("account_type", "account_number", "expected_result"), test_data)
-def test_open_account(account_type, account_number, expected_result, driver):
-    username = "bipana"
-    password = "1234"
-
+@pytest.mark.parametrize(("account_type", "expected_result"), test_data)
+def test_open_new_account(account_type, expected_result, driver):
     login_page = LoginPage(driver)
-    login_page.login(username, password)
+    login_page.login("bipana", "1234")
 
     open_account_page = OpenAccountPage(driver)
+
+    # First navigate properly
     open_account_page.element_click_call(OpenNewAccPageLocators.new_account)
+    # open_account_page.load()
 
+    # Wait for dropdown readiness
     WebDriverWait(driver, 10).until(EC.presence_of_element_located(OpenNewAccPageLocators.account_type))
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located(OpenNewAccPageLocators.account_number))
+    WebDriverWait(driver, 10).until(
+        lambda d: len(Select(d.find_element(*OpenNewAccPageLocators.account_number)).options) > 0
+    )
 
-    # open_account_page.open_account(account_type, account_number)
+    # Perform account opening
+    result = open_account_page.open_account(account_type)
 
-    assert open_account_page.get_open_account_result() == expected_result
+    # If result is returned from open_account(), use it
+    if result:
+        actual_result = result
+    else:
+        actual_result = open_account_page.get_open_account_result()
+
+    assert actual_result == expected_result, f"Expected '{expected_result}', but got '{actual_result}'"
